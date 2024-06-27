@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import json
 from relevance import get_relevance
@@ -13,11 +14,13 @@ def extract_name_from_url(url):
     name = domain.split('.')[0]
     return name
 
+def extract_website_content(url):
+    response=requests.get(url)
+    soup=BeautifulSoup(response.text,'html.parser')
+    return soup.get_text()
 
-    
 
-
-st.title("Startup Information Extractor")
+st.title("StartupScout")
 
 url = st.text_input("Enter the startup website URL:")
 
